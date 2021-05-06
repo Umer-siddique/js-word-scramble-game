@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word scramble</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    
+<header>
+    <h1>Guess the word game</h1>
+</header>
+<section>
+<div class="gameArea">
+<h3 class="text"></h3>
+<input type="text" class="hidden">
+<button class="btn">Click Here to Start</button>
+</div>
+</section>
+
+<script>
+
+ let msg=document.querySelector('.text');
+ let input=document.querySelector('input');
+ let btn=document.querySelector('.btn');
+         let play=false;
+         let newRandWords="";
+         let scrambleWords="";
+         let myWords=['Pakistan','India','China','Umer','Tahneeyat','Australia','javascript','Bhutan','Nepal',
+          'Bangladesh','Italy','python','java','Faisal','Azeem'];
+
+         const createNewWords=()=>{
+             
+            let randNum=(Math.floor(Math.random()*myWords.length));
+             let newWords=myWords[randNum];
+             return newWords;
+
+         }
+         const scrambleRandWords=(recieverWords)=>{
+          for(let i=recieverWords.length-1; i>0; i--)
+          {
+              let temp=recieverWords[i];
+              let j=Math.floor(Math.random()*(i+1));
+              recieverWords[i]=recieverWords[j];
+              recieverWords[j]=temp;
+          }    
+          return recieverWords;
+         }
+ btn.addEventListener('click', function(){
+    
+       if(!play){
+       play=true;
+       btn.innerHTML="Guess the word";
+       input.classList.toggle('hidden');
+       newRandWords= createNewWords();
+       scrambleWords=scrambleRandWords(newRandWords.split(""));
+       msg.innerHTML = `Guess The Word: ${scrambleWords.join("")}`;
+
+       }
+       else{
+           let tempWords=input.value;
+           if(tempWords===newRandWords)
+           {
+               
+               play=false;
+               msg.innerHTML=`Great! It's a Correct Guess. The word is ${newRandWords}`;
+               btn.innerHTML="Start Again";
+               input.classList.toggle('hidden');
+               input.value="";
+           }
+           else
+           {
+            msg.innerHTML=`Sorry! Wrong Guess. Try Again : ${scrambleWords.join("")}`;
+               btn.innerHTML="Start Again";
+               input.value="";
+           }
+       }
+
+ })
+
+</script>
+
+
+
+
+</body>
+</html>
